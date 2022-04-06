@@ -31,5 +31,6 @@ public class Conta {
     private List<Despesa> despesas;
 
     private String nome;
-    private BigDecimal saldo;
+    private BigDecimal saldoInicial;
+    private BigDecimal saldoAtual;
 }

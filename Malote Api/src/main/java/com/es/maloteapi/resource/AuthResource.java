@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @Api(tags = "Auth")
-@CrossOrigin(origins = "*")
+@RequestMapping("api")
 public class AuthResource {
     @Autowired
     private AuthenticationManager authenticationManager;

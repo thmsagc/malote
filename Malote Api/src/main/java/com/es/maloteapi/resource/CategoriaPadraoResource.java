@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(tags = "Categoria Padrao")
-@CrossOrigin(origins = "*")
+@RequestMapping("api")
 public class CategoriaPadraoResource {
 
     private final CategoriaPadraoService categoriaPadraoService;

@@ -21,6 +21,8 @@ public class Renda {
     @JoinColumn(name = "conta_id", nullable = false)
     private Conta conta;
 
+    private String nome;
+    private String descricao;
     private BigDecimal valor;
     private LocalDate data;
 }

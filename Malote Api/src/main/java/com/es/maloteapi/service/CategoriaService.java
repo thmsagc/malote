@@ -1,6 +1,7 @@
 package com.es.maloteapi.service;
 
 import com.es.maloteapi.entity.Categoria;
+import com.es.maloteapi.entity.Conta;
 import com.es.maloteapi.entity.Usuario;
 import com.es.maloteapi.entity.request.CriarCategoriaRequest;
 import com.es.maloteapi.entity.request.CriarUsuarioRequest;
@@ -57,5 +58,10 @@ public class CategoriaService {
 
     public List<Categoria> getCategorias() {
         return this.categoriaRepository.findAllByUsuario(userService.getUser());
+    }
+
+    public Categoria getCategoria(Long idCategoria) {
+        return categoriaRepository.findById(idCategoria).orElseThrow(
+                () -> new NotFoundAlertException(ProblemKey.CATEGORIA_INEXISTENTE));
     }
 }

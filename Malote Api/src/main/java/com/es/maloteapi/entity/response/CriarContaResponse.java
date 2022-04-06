@@ -18,7 +18,7 @@ public class CriarContaResponse {
         CriarContaResponse contaResponse = new CriarContaResponse();
         contaResponse.setId(conta.getId());
         contaResponse.setNome(conta.getNome());
-        contaResponse.setSaldoInicial(conta.getSaldo());
+        contaResponse.setSaldoInicial(conta.getSaldoInicial());
         return contaResponse;
     }
 }

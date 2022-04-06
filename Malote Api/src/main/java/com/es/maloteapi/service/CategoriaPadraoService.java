@@ -31,7 +31,7 @@ public class CategoriaPadraoService {
 
     public void deleteCategoriaPadrao(Long idCategoriaPadrao) {
         CategoriaPadrao categoriaPadrao = categoriaPadraoRepository.findById(idCategoriaPadrao).orElseThrow(
-                () -> new BadRequestAlertException(ProblemKey.CATEGORIA_INEXISTENTE));
+                () -> new BadRequestAlertException(ProblemKey.CATEGORIA_PADRAO_INEXISTENTE));
         this.categoriaPadraoRepository.delete(categoriaPadrao);
     }
 }

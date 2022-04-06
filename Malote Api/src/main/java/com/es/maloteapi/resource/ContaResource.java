@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(tags = "Conta")
-@CrossOrigin(origins = "*")
+@RequestMapping("api")
 public class ContaResource {
 
     private final ContaService contaService;
@@ -30,5 +30,12 @@ public class ContaResource {
     public @ResponseBody
     ResponseEntity<?> createConta(@RequestBody CriarContaRequest request) {
         return ResponseEntity.ok(contaService.createConta(request));
+    }
+
+    @ApiOperation(value = "This method is used to delete a account for the current user.")
+    @DeleteMapping(value = "/conta")
+    public @ResponseBody
+    void deleteConta(@RequestBody Long idConta) {
+        contaService.deleteConta(idConta);
     }
 }
