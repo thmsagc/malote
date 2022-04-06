@@ -1,2 +1,2 @@
-# purse
+# Malote
 Personal finance control app
