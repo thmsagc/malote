@@ -1,0 +1,3 @@
+USUARIO_EXISTENTE=O nome de usuário informado já é utilizado.
+USUARIO_INEXISTENTE=O nome de usuário informado não esta cadastrado.
+CREDENCIAIS_INVALIDAS=A senha informada não corresponde.

@@ -1,0 +1,11 @@
+package com.es.maloteapi.exception;
+
+public enum ProblemKey {
+    USUARIO_EXISTENTE,
+    USUARIO_INEXISTENTE,
+    CREDENCIAIS_INVALIDAS,
+    ERRO_AO_BUSCAR_USUARIO,
+    USUARIO_JA_POSSUI_CATEGORIAS_PADRAO,
+
+    CATEGORIA_INEXISTENTE
+}
