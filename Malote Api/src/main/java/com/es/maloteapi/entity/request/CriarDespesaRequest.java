@@ -3,7 +3,6 @@ package com.es.maloteapi.entity.request;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Data
 public class CriarDespesaRequest {
@@ -12,5 +11,5 @@ public class CriarDespesaRequest {
     private String descricao;
     private Long categoria;
     private BigDecimal valor;
-    private LocalDate data;
+    private String data;
 }

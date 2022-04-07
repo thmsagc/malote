@@ -21,8 +21,14 @@ public class Renda {
     @JoinColumn(name = "conta_id", nullable = false)
     private Conta conta;
 
+    public static final String RECORRENCIA_DIARIA = "diaria";
+    public static final String RECORRENCIA_MENSAL = "mensal";
+    public static final String RECORRENCIA_ANUAL = "anual";
+    public static final String SEM_RECORRENCIA = "nenhuma";
+
     private String nome;
     private String descricao;
     private BigDecimal valor;
     private LocalDate data;
+    private String recorrencia;
 }

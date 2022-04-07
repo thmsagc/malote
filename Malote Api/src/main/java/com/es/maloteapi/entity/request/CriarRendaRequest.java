@@ -12,5 +12,6 @@ public class CriarRendaRequest {
     private String descricao;
     private Long categoria;
     private BigDecimal valor;
-    private LocalDate data;
+    private String data;
+    private String recorrencia;
 }

@@ -6,7 +6,7 @@ import com.es.maloteapi.entity.Despesa;
 import com.es.maloteapi.entity.request.CriarDespesaRequest;
 import com.es.maloteapi.entity.response.CriarDespesaResponse;
 import com.es.maloteapi.entity.response.DespesaResponse;
-import com.es.maloteapi.exception.BadRequestAlertException;
+import com.es.maloteapi.entity.response.StringUtils;
 import com.es.maloteapi.exception.NotFoundAlertException;
 import com.es.maloteapi.exception.ProblemKey;
 import com.es.maloteapi.repository.DespesaRepository;
@@ -28,35 +28,29 @@ public class DespesaService {
         this.contaService = contaService;
     }
 
-    public List<DespesaResponse> findAllByDataBetween(LocalDate inicio, LocalDate fim) {
-        return DespesaResponse.from(despesaRepository.findAllByDataBetween(inicio, fim));
-    }
-
-    public List<DespesaResponse> findAllByCategoria(Categoria categoria) {
-        return DespesaResponse.from(despesaRepository.findAllByCategoria(categoria));
+    public List<DespesaResponse> findAllByContaAndCategoria(Conta conta, Categoria categoria) {
+        return DespesaResponse.from(despesaRepository.findAllByContaAndCategoria(conta, categoria));
     }
 
     public List<DespesaResponse> findAllByConta(Conta conta) {
         return DespesaResponse.from(despesaRepository.findAllByConta(conta));
     }
 
+    public List<DespesaResponse> findAllByContaAndPeriodo(Conta conta, LocalDate inicio, LocalDate fim) {
+        return DespesaResponse.from(despesaRepository.findAllByContaAndDataBetween(conta, inicio, fim));
+    }
+
     public CriarDespesaResponse createDespesa(CriarDespesaRequest criarDespesaRequest) {
         Despesa despesa = new Despesa();
-
         Conta conta = contaService.getConta(criarDespesaRequest.getConta());
-        if(criarDespesaRequest.getValor().compareTo(conta.getSaldoAtual()) == 1)
-            throw new BadRequestAlertException(ProblemKey.SALDO_INSUFICIENTE);
-        else {
-            conta.setSaldoAtual(conta.getSaldoAtual().subtract(criarDespesaRequest.getValor()));
-            contaService.save(conta);
-        }
-
-        despesa.setConta(contaService.getConta(criarDespesaRequest.getConta()));
+        despesa.setConta(conta);
         despesa.setNome(criarDespesaRequest.getNome());
         despesa.setDescricao(criarDespesaRequest.getDescricao());
         despesa.setValor(criarDespesaRequest.getValor());
         despesa.setCategoria(categoriaService.getCategoria(criarDespesaRequest.getCategoria()));
-        despesa.setData(LocalDate.now());
+        despesa.setData(StringUtils.stringToLocalDateDdMmYyyy(criarDespesaRequest.getData()));
+        conta.setSaldoAtual(conta.getSaldoAtual().add(criarDespesaRequest.getValor()));
+        contaService.save(conta);
         return CriarDespesaResponse.from(despesaRepository.save(despesa));
     }
 
@@ -65,7 +59,7 @@ public class DespesaService {
                 () -> new NotFoundAlertException(ProblemKey.DESPESA_INEXISTENTE));
 
         Conta conta = despesa.getConta();
-        conta.setSaldoAtual(conta.getSaldoAtual().add(despesa.getValor()));
+        conta.setSaldoAtual(conta.getSaldoAtual().subtract(despesa.getValor()));
         contaService.save(conta);
 
         despesaRepository.delete(despesa);

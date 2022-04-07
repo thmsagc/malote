@@ -1,6 +1,7 @@
 package com.es.maloteapi.resource;
 
 import com.es.maloteapi.entity.request.CriarRendaRequest;
+import com.es.maloteapi.entity.response.StringUtils;
 import com.es.maloteapi.service.CategoriaService;
 import com.es.maloteapi.service.ContaService;
 import com.es.maloteapi.service.RendaService;
@@ -36,8 +37,16 @@ public class RendaResource {
     @ApiOperation(value = "This method is used to get all incomes by category of current user.")
     @GetMapping(value = "/rendas-por-categoria")
     public @ResponseBody
-    ResponseEntity<?> findRendasByCategoria(@RequestParam Long idCategoria) {
-        return ResponseEntity.ok(rendaService.findAllByCategoria(categoriaService.getCategoria(idCategoria)));
+    ResponseEntity<?> findRendasByContaCategoria(@RequestParam Long idConta, @RequestParam Long idCategoria) {
+        return ResponseEntity.ok(rendaService.findAllByContaAndCategoria(contaService.getConta(idConta), categoriaService.getCategoria(idCategoria)));
+    }
+
+    @ApiOperation(value = "This method is used to get all incomes by a period.")
+    @GetMapping(value = "/rendas-por-periodo")
+    public @ResponseBody
+    ResponseEntity<?> findRendasByPeriodo(@RequestParam Long idConta, @RequestParam String inicio, @RequestParam String fim) {
+        return ResponseEntity.ok(rendaService.findAllByContaAndPeriodo(contaService.getConta(idConta),
+                StringUtils.stringToLocalDateDdMmYyyy(inicio), StringUtils.stringToLocalDateDdMmYyyy(fim)));
     }
 
     @ApiOperation(value = "This method is used to create a new income for the current user.")

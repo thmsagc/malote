@@ -13,6 +13,7 @@ import java.util.List;
 @Repository
 public interface RendaRepository extends JpaRepository<Renda, Long> {
     List<Renda> findAllByConta(Conta conta);
-    List<Renda> findAllByCategoria(Categoria categoria);
-    List<Renda> findAllByDataBetween(LocalDate inicio, LocalDate fim);
+    List<Renda> findAllByContaAndCategoria(Conta conta, Categoria categoria);
+    List<Renda> findAllByContaAndRecorrencia(Conta conta, String recorrencia);
+    List<Renda> findAllByContaAndDataBetween(Conta conta, LocalDate inicio, LocalDate fim);
 }

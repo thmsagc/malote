@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -19,6 +20,7 @@ public class Usuario {
     private String username;
     private String password;
     private Boolean categoriasPadrao;
+    private LocalDate dataVerificacao;
 
     @JsonIgnoreProperties({"usuario"})
     @OneToMany(mappedBy = "usuario")
@@ -31,5 +33,6 @@ public class Usuario {
     public Usuario(String username, String password) {
         this.username = username;
         this.password = password;
+        this.dataVerificacao = LocalDate.now();
     }
 }

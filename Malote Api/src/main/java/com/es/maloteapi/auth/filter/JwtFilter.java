@@ -1,6 +1,7 @@
 package com.es.maloteapi.auth.filter;
 
 import com.es.maloteapi.auth.JwtUtil;
+import com.es.maloteapi.entity.Usuario;
 import com.es.maloteapi.service.CategoriaPadraoService;
 import com.es.maloteapi.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 usernamePasswordAuthenticationToken
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                System.out.println("TOKEN VALIDADO COM SUCESSO!");
+                service.verificarUsuario(service.findByUsername(userName));
             }
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);

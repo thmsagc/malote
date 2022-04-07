@@ -3,9 +3,11 @@ package com.es.maloteapi.service;
 import com.es.maloteapi.entity.Categoria;
 import com.es.maloteapi.entity.Conta;
 import com.es.maloteapi.entity.Renda;
+import com.es.maloteapi.entity.Usuario;
 import com.es.maloteapi.entity.request.CriarRendaRequest;
 import com.es.maloteapi.entity.response.CriarRendaResponse;
 import com.es.maloteapi.entity.response.RendaResponse;
+import com.es.maloteapi.entity.response.StringUtils;
 import com.es.maloteapi.exception.NotFoundAlertException;
 import com.es.maloteapi.exception.ProblemKey;
 import com.es.maloteapi.repository.RendaRepository;
@@ -27,16 +29,20 @@ public class RendaService {
         this.contaService = contaService;
     }
 
-    public List<RendaResponse> findAllByDataBetween(LocalDate inicio, LocalDate fim) {
-        return RendaResponse.from(rendaRepository.findAllByDataBetween(inicio, fim));
-    }
-
-    public List<RendaResponse> findAllByCategoria(Categoria categoria) {
-        return RendaResponse.from(rendaRepository.findAllByCategoria(categoria));
+    public List<RendaResponse> findAllByContaAndCategoria(Conta conta, Categoria categoria) {
+        return RendaResponse.from(rendaRepository.findAllByContaAndCategoria(conta, categoria));
     }
 
     public List<RendaResponse> findAllByConta(Conta conta) {
         return RendaResponse.from(rendaRepository.findAllByConta(conta));
+    }
+
+    public List<RendaResponse> findAllByContaAndPeriodo(Conta conta, LocalDate inicio, LocalDate fim) {
+        return RendaResponse.from(rendaRepository.findAllByContaAndDataBetween(conta, inicio, fim));
+    }
+
+    public List<RendaResponse> findAllByContaAndRecorrencia(Conta conta, String recorrencia) {
+        return RendaResponse.from(rendaRepository.findAllByContaAndRecorrencia(conta, recorrencia));
     }
 
     public CriarRendaResponse createRenda(CriarRendaRequest criarRendaRequest) {
@@ -47,8 +53,12 @@ public class RendaService {
         renda.setDescricao(criarRendaRequest.getDescricao());
         renda.setValor(criarRendaRequest.getValor());
         renda.setCategoria(categoriaService.getCategoria(criarRendaRequest.getCategoria()));
-        renda.setData(LocalDate.now());
+        renda.setData(StringUtils.stringToLocalDateDdMmYyyy(criarRendaRequest.getData()));
         conta.setSaldoAtual(conta.getSaldoAtual().add(criarRendaRequest.getValor()));
+        if(!criarRendaRequest.getRecorrencia().isEmpty())
+            renda.setRecorrencia(criarRendaRequest.getRecorrencia());
+        else
+            renda.setRecorrencia(Renda.SEM_RECORRENCIA);
         contaService.save(conta);
         return CriarRendaResponse.from(rendaRepository.save(renda));
     }

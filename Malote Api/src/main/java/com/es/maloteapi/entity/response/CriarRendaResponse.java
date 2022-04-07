@@ -4,7 +4,6 @@ import com.es.maloteapi.entity.Renda;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Data
 public class CriarRendaResponse {
@@ -14,7 +13,8 @@ public class CriarRendaResponse {
     private Long categoria;
     private String descricao;
     private BigDecimal valor;
-    private LocalDate data;
+    private String data;
+    private String recorrencia;
 
     public static CriarRendaResponse from(Renda renda) {
         CriarRendaResponse criarRendaResponse = new CriarRendaResponse();
@@ -24,7 +24,8 @@ public class CriarRendaResponse {
         criarRendaResponse.setCategoria(renda.getCategoria().getId());
         criarRendaResponse.setDescricao(renda.getDescricao());
         criarRendaResponse.setValor(renda.getValor());
-        criarRendaResponse.setData(renda.getData());
+        criarRendaResponse.setData(StringUtils.localDateToStringDdMmYyyy(renda.getData()));
+        criarRendaResponse.setRecorrencia(StringUtils.localDateToStringDdMmYyyy(renda.getData()));
         return criarRendaResponse;
     }
 }

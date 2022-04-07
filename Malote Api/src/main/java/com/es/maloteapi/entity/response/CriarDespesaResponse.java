@@ -14,7 +14,7 @@ public class CriarDespesaResponse {
     private Long categoria;
     private String descricao;
     private BigDecimal valor;
-    private LocalDate data;
+    private String data;
 
     public static CriarDespesaResponse from(Despesa despesa) {
         CriarDespesaResponse criarDespesaResponse = new CriarDespesaResponse();
@@ -24,7 +24,7 @@ public class CriarDespesaResponse {
         criarDespesaResponse.setCategoria(despesa.getCategoria().getId());
         criarDespesaResponse.setDescricao(despesa.getDescricao());
         criarDespesaResponse.setValor(despesa.getValor());
-        criarDespesaResponse.setData(despesa.getData());
+        criarDespesaResponse.setData(StringUtils.localDateToStringDdMmYyyy(despesa.getData()));
         return criarDespesaResponse;
     }
 }
